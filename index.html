@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Pendataan</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3>Pendataan App</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-target="dashboard">Dashboard</li>
+                <li class="menu-item" data-target="po">Purchase Orders</li>
+                <li class="menu-item" data-target="invoice">Invoices</li>
+                <li class="menu-item" data-target="vendor">Vendors</li>
+                <li class="menu-item" data-target="client">Clients</li>
+                <li class="menu-item" data-target="kategori">Kategori</li>
+                 <li class="menu-item" data-target="memo">Memo</li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1 id="content-title">Dashboard</h1>
+                <button class="add-new-btn">+ Tambah Baru</button>
+            </header>
+            <div class="content-body">
+                <div id="data-container">
+                    </div>
+                <p id="loading-indicator">Memuat data...</p>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

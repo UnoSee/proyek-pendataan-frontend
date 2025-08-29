@@ -1,0 +1,59 @@
+/* Reset & Font */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; color: #343a40; font-size: 14px; -webkit-font-smoothing: antialiased; }
+
+/* Layout Utama */
+.app-container { display: flex; min-height: 100vh; }
+.sidebar { width: 220px; background-color: #ffffff; border-right: 1px solid #dee2e6; display: flex; flex-direction: column; padding: 1rem; }
+.sidebar-header h3 { font-weight: 600; font-size: 1.25rem; }
+.sidebar-menu { list-style: none; margin-top: 1.5rem; }
+.menu-item { padding: 0.7rem 0.9rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 0.9rem; color: #495057; transition: background-color 0.2s, color 0.2s; }
+.menu-item:hover { background-color: #f1f3f5; }
+.menu-item.active { background-color: #007bff; color: #ffffff; }
+
+.main-content { flex-grow: 1; padding: 1.5rem; overflow-x: hidden; }
+.main-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.main-header h1 { font-size: 1.75rem; font-weight: 600; }
+.add-new-btn { background-color: #007bff; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s; }
+.add-new-btn:hover { background-color: #0056b3; }
+.content-body { background-color: #ffffff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+
+/* Dashboard Styles */
+.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+.stat-card { background-color: #f8f9fa; padding: 1.25rem; border-radius: 8px; border: 1px solid #e9ecef; }
+.stat-card-title { font-size: 0.9rem; color: #6c757d; font-weight: 500; margin-bottom: 0.5rem; }
+.stat-card-value { font-size: 2rem; font-weight: 600; color: #212529; }
+.recent-pos { margin-top: 2rem; }
+.recent-pos h4 { font-weight: 600; margin-bottom: 1rem; }
+
+/* Tabel Styles */
+#data-container { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid #e9ecef; vertical-align: middle; font-size: 0.875rem; white-space: normal; word-break: break-word; }
+thead th { font-weight: 600; color: #495057; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; background-color: #f8f9fa; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr.clickable-row:hover { background-color: #f1f3f5; cursor: pointer; }
+#loading-indicator { padding: 2rem; text-align: center; color: #6c757d; }
+.status { padding: 0.25rem 0.6rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
+.status-rilis, .status-paid { background-color: #d4edda; color: #155724; }
+.status-belum-rilis, .status-bill { background-color: #fff3cd; color: #856404; }
+.status-unbill { background-color: #f8d7da; color: #721c24; }
+
+/* Halaman Edit Styles */
+.back-btn { background-color: #6c757d; color: #fff; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 500; text-decoration: none; transition: background-color 0.2s; }
+.back-btn:hover { background-color: #5a6268; }
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.7rem; border: 1px solid #ced4da; border-radius: 6px; font-size: 1rem; font-family: 'Poppins', sans-serif; }
+.form-group textarea { resize: vertical; min-height: 80px; }
+#modal-save-btn { width: 100%; padding: 0.8rem; margin-top: 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; }
+
+/* Attachment List Styles */
+.attachment-list { list-style: none; margin-top: 1rem; padding: 0; }
+.attachment-item { display: flex; align-items: center; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; padding: 0.75rem; margin-bottom: 0.75rem; }
+.attachment-preview { width: 60px; height: 60px; border-radius: 4px; background-color: #e9ecef; display: flex; align-items: center; justify-content: center; margin-right: 1rem; overflow: hidden; }
+.attachment-preview img { width: 100%; height: 100%; object-fit: cover; }
+.attachment-preview-icon { font-size: 2rem; color: #6c757d; }
+.attachment-info { flex-grow: 1; }
+.attachment-info a { font-weight: 500; color: #007bff; text-decoration: none; display: block; }
+.attachment-delete-btn { background: none; border: none; color: #dc3545; font-size: 1.2rem; cursor: pointer; margin-left: 1rem; }
