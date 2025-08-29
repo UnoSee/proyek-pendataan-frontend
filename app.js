@@ -1,10 +1,12 @@
+// app.js (Final Lengkap)
 document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'http://localhost:3001';
     const menuItems = document.querySelectorAll('.menu-item');
     const contentTitle = document.getElementById('content-title');
     const dataContainer = document.getElementById('data-container');
     const loadingIndicator = document.getElementById('loading-indicator');
-    let activeMenuTarget;
+    const addNewBtn = document.querySelector('.add-new-btn');
+    let activeMenuTarget = 'dashboard';
 
     const handleRowClick = (e) => {
         const row = e.target.closest('tr.clickable-row');
@@ -14,6 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = `edit.html?type=${type}&id=${encodeURIComponent(id)}`;
     };
     dataContainer.addEventListener('click', handleRowClick);
+
+    const handleAddClick = () => {
+        if (activeMenuTarget) {
+            window.location.href = `add.html?type=${activeMenuTarget}`;
+        }
+    };
+    addNewBtn.addEventListener('click', handleAddClick);
+
+    const updateAddButtonVisibility = (target) => {
+        const creatableTypes = ['po', 'vendor', 'memo', 'invoice', 'client', 'kategori'];
+        if (creatableTypes.includes(target)) {
+            addNewBtn.style.display = 'block';
+        } else {
+            addNewBtn.style.display = 'none';
+        }
+    };
 
     const formatCurrency = (amount) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
     const showLoading = () => { dataContainer.innerHTML = ''; loadingIndicator.style.display = 'block'; };
@@ -37,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
    
     const renderTable = (headers, data, type, idField) => {
-       const isClickable = ['po', 'vendor', 'memo'].includes(type);
+       const isClickable = ['po', 'vendor', 'memo', 'invoice', 'client', 'kategori'].includes(type);
        let tableHTML = `<table><thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>`;
        data.forEach(item => {
            const rowClass = isClickable ? 'clickable-row' : '';
@@ -68,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadContent = async (target) => {
        showLoading();
        activeMenuTarget = target;
+       updateAddButtonVisibility(target);
        const endpoint = target === 'dashboard' ? `${API_BASE_URL}/api/dashboard/stats` : `${API_BASE_URL}/api/${target}`;
        try {
            const response = await fetch(endpoint);
@@ -92,6 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
            loadContent(target);
        });
     });
-
+    
     loadContent('dashboard');
 });

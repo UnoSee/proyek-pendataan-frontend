@@ -46,7 +46,23 @@ tbody tr.clickable-row:hover { background-color: #f1f3f5; cursor: pointer; }
 .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
 .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.7rem; border: 1px solid #ced4da; border-radius: 6px; font-size: 1rem; font-family: 'Poppins', sans-serif; }
 .form-group textarea { resize: vertical; min-height: 80px; }
-#modal-save-btn { width: 100%; padding: 0.8rem; margin-top: 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; }
+.form-submit-btn {
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-submit-btn:hover {
+    background-color: #0056b3;
+}
 
 /* Attachment List Styles */
 .attachment-list { list-style: none; margin-top: 1rem; padding: 0; }

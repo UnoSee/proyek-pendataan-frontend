@@ -1,3 +1,4 @@
+// edit.js (Final Lengkap)
 document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'http://localhost:3001';
     const editTitle = document.getElementById('edit-title');
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    const buildEditForm = (data) => {
+    const buildEditForm = async (data) => {
         let formHTML = '';
         const title = type.charAt(0).toUpperCase() + type.slice(1);
         editTitle.textContent = `Edit ${title}: ${id}`;
@@ -83,8 +84,41 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="form-group"><label>Perihal</label><textarea name="perihal" required>${data.perihal || ''}</textarea></div>
                     ${attachmentHTML(data)}`;
                 break;
+            case 'invoice':
+                const poRes = await fetch(`${API_BASE_URL}/api/po`);
+                const pos = await poRes.json();
+                const poOptions = pos.map(p => `<option value="${p.no_po}" ${data.no_po === p.no_po ? 'selected' : ''}>${p.no_po} - ${p.perihal_project}</option>`).join('');
+
+                formHTML = `
+                    <div class="form-group"><label>Nomor Invoice</label><input type="text" name="no_invoice" value="${data.no_invoice || ''}" required></div>
+                    <div class="form-group"><label>Purchase Order (PO)</label><select name="no_po">${poOptions}</select></div>
+                    <div class="form-group"><label>Termin</label><input type="number" name="termin" value="${data.termin || ''}" required></div>
+                    <div class="form-group"><label>Porsi Invoice (%)</label><input type="number" name="invoice_portion_percent" step="0.01" value="${data.invoice_portion_percent || ''}" required></div>
+                    <div class="form-group"><label>Status PPN</label>
+                        <select name="ppn_status">
+                            <option value="PKP" ${data.ppn_status === 'PKP' ? 'selected' : ''}>PKP</option>
+                            <option value="Non PKP" ${data.ppn_status === 'Non PKP' ? 'selected' : ''}>Non PKP</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Status Invoice</label>
+                        <select name="status_invoice">
+                            <option value="Unbill" ${data.status_invoice === 'Unbill' ? 'selected' : ''}>Unbill</option>
+                            <option value="Bill" ${data.status_invoice === 'Bill' ? 'selected' : ''}>Bill</option>
+                            <option value="Paid" ${data.status_invoice === 'Paid' ? 'selected' : ''}>Paid</option>
+                        </select>
+                    </div>`;
+                break;
+            case 'client':
+                formHTML = `
+                    <div class="form-group"><label>Nama Brand</label><input type="text" name="nama_brand" value="${data.nama_brand || ''}" required></div>
+                    <div class="form-group"><label>Nama PT</label><input type="text" name="nama_pt" value="${data.nama_pt || ''}"></div>
+                    <div class="form-group"><label>Alamat</label><textarea name="alamat">${data.alamat || ''}</textarea></div>`;
+                break;
+            case 'kategori':
+                formHTML = `<div class="form-group"><label>Nama Kategori</label><input type="text" name="nama_kategori" value="${data.nama_kategori || ''}" required></div>`;
+                break;
         }
-        editForm.innerHTML = formHTML + '<button type="submit" id="modal-save-btn">Simpan Perubahan</button>';
+        editForm.innerHTML = formHTML + '<button type="submit" class="form-submit-btn">Simpan Perubahan</button>';
     };
 
     const fetchData = async () => {
@@ -102,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     editForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const button = document.getElementById('modal-save-btn');
+        const button = e.target.querySelector('.form-submit-btn');
         button.textContent = 'Menyimpan...';
         button.disabled = true;
         
