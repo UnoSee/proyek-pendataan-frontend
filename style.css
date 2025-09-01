@@ -73,3 +73,28 @@ tbody tr.clickable-row:hover { background-color: #f1f3f5; cursor: pointer; }
 .attachment-info { flex-grow: 1; }
 .attachment-info a { font-weight: 500; color: #007bff; text-decoration: none; display: block; }
 .attachment-delete-btn { background: none; border: none; color: #dc3545; font-size: 1.2rem; cursor: pointer; margin-left: 1rem; }
+
+.header-actions { display: flex; align-items: center; gap: 1rem; }
+#search-input { padding: 0.5rem 0.8rem; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.9rem; }
+.action-btn { background-color: #17a2b8; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s; }
+.action-btn:hover { background-color: #138496; }
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: 1px solid #ced4da;
+    padding: 1rem;
+    border-radius: 6px;
+}
+.checkbox-item {
+    display: inline-flex;  /* Menggunakan inline-flex agar lebih rapi */
+    align-items: center;   /* Tetap penting untuk alignment vertikal */
+    gap: 0.5rem;           /* Mengatur jarak antara box dan teks */
+}
+.checkbox-item input {
+    width: auto;
+    margin: 0;             /* Menghapus semua margin bawaan dari checkbox */
+    flex-shrink: 0;        /* Mencegah checkbox mengecil */
+}
+

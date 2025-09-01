@@ -22,18 +22,20 @@
                 <li class="menu-item" data-target="vendor">Vendors</li>
                 <li class="menu-item" data-target="client">Clients</li>
                 <li class="menu-item" data-target="kategori">Kategori</li>
-                 <li class="menu-item" data-target="memo">Memo</li>
+                <li class="menu-item" data-target="memo">Memo</li>
             </ul>
         </nav>
-
         <main class="main-content">
             <header class="main-header">
                 <h1 id="content-title">Dashboard</h1>
-                <button class="add-new-btn">+ Tambah Baru</button>
+                <div class="header-actions">
+                    <input type="text" id="search-input" placeholder="Cari data..." style="display: none;">
+                    <button id="export-btn" class="action-btn" style="display: none;">Export Excel</button>
+                    <button id="add-new-btn" class="add-new-btn">+ Tambah Baru</button>
+                </div>
             </header>
             <div class="content-body">
-                <div id="data-container">
-                    </div>
+                <div id="data-container"></div>
                 <p id="loading-indicator">Memuat data...</p>
             </div>
         </main>
