@@ -5,29 +5,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const type = urlParams.get('type');
 
-    if (!type) { addTitle.textContent = 'Error: Tipe data tidak ditemukan'; return; }
+    if (!type) {
+        addTitle.textContent = 'Error: Tipe data tidak ditemukan';
+        return;
+    }
 
     const buildAddForm = async () => {
         let formHTML = '';
         const title = type.charAt(0).toUpperCase() + type.slice(1);
         addTitle.textContent = `Tambah ${title} Baru`;
         
-        const attachmentHTML = `<div class="form-group"><label>Tambah Attachments</label><input type="file" name="attachments" multiple></div>`;
+        const attachmentHTML = `
+            <div class="form-group">
+                <label>Tambah Attachments (Umum)</label>
+                <input type="file" name="attachments" multiple>
+            </div>`;
 
         switch (type) {
             case 'vendor':
                 const categoriesRes = await fetch(`${API_BASE_URL}/api/kategori`);
                 const categories = await categoriesRes.json();
                 const categoryCheckboxes = categories.map(cat => `<div class="checkbox-item"><input type="checkbox" name="kategori_ids" value="${cat.id_kategori}" id="cat-${cat.id_kategori}"><label for="cat-${cat.id_kategori}">${cat.nama_kategori}</label></div>`).join('');
+    
+                const docItems = [
+                    { key: 'npwp_file', label: 'NPWP' },
+                    { key: 'ktp_direktur_file', label: 'KTP Direktur' },
+                    { key: 'surat_pernyataan_file', label: 'Surat Pernyataan' },
+                    { key: 'akte_file', label: 'Akte Perusahaan' },
+                    { key: 'nib_file', label: 'NIB' },
+                ];
+                
+                const docUploadHTML = docItems.map(doc => `
+                    <div class="doc-upload-item">
+                        <div class="doc-info">
+                            <span class="status-icon">⚪</span>
+                            <span class="doc-label">${doc.label}</span>
+                        </div>
+                        <div class="doc-actions">
+                            <div class="file-input-wrapper">
+                                <button type="button" class="btn">Upload File</button>
+                                <input type="file" name="${doc.key}" onchange="this.previousElementSibling.textContent = 'File Dipilih'">
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
                 formHTML = `
                     <div class="form-group"><label>Nama PT/CV</label><input type="text" name="nama_pt_cv" required></div>
                     <div class="form-group"><label>Nama Vendor (PIC)</label><input type="text" name="nama_vendor"></div>
-                    <div class="form-group"><label>Kategori</label><div class="checkbox-group">${categoryCheckboxes}</div></div>
+                    <div class="form-group"><label>Nomor PIC</label><input type="text" name="nomor_pic"></div>
                     <div class="form-group"><label>Alamat</label><textarea name="alamat"></textarea></div>
-                    <div class="form-group"><label>Status Verifikasi</label>
-                        <select name="status_verifikasi"><option value="">- Pilih Status -</option><option value="Belum terverifikasi">Belum terverifikasi</option><option value="Terverifikasi">Terverifikasi</option></select>
-                    </div>
-                    ${attachmentHTML}`;
+                    <div class="form-group"><label>Kategori</label><div class="checkbox-group">${categoryCheckboxes}</div></div>
+                    <fieldset class="verification-group">
+                        <legend>Dokumen Wajib</legend>
+                        <div class="doc-upload-list">${docUploadHTML}</div>
+                    </fieldset>`;
                 break;
             case 'po':
                 const vendorsRes = await fetch(`${API_BASE_URL}/api/vendor`);
@@ -83,22 +115,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const button = e.target.querySelector('.form-submit-btn');
-        button.textContent = 'Menyimpan...';
-        button.disabled = true;
-        const formData = new FormData(addForm);
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/${type}`, { method: 'POST', body: formData });
-            if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.error || 'Gagal menyimpan data.');
+        
+        if (confirm("Dengan menyimpan, Anda menyatakan bertanggung jawab atas keabsahan semua data dan dokumen yang diunggah. Lanjutkan?")) {
+            const button = e.target.querySelector('.form-submit-btn');
+            button.textContent = 'Menyimpan...';
+            button.disabled = true;
+
+            const formData = new FormData(addForm);
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/${type}`, {
+                    method: 'POST',
+                    body: formData,
+                });
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.error || 'Gagal menyimpan data.');
+                }
+                alert(`${type.charAt(0).toUpperCase() + type.slice(1)} berhasil dibuat!`);
+                window.location.href = 'index.html';
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+                button.textContent = 'Simpan Data';
+                button.disabled = false;
             }
-            alert(`${type.charAt(0).toUpperCase() + type.slice(1)} berhasil dibuat!`);
-            window.location.href = 'index.html';
-        } catch (error) {
-            alert(`Error: ${error.message}`);
-            button.textContent = 'Simpan Data';
-            button.disabled = false;
         }
     });
 
